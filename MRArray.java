@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 
@@ -7,9 +6,6 @@ public class MRArray {
     private static int arr[] = new int[10];
     private File txt;
     private String fileName;
-
-    MRArray() {
-    }
 
     void sortLoToHi() {
         for (int i = arr.length - 1; i > 0; i--) {
