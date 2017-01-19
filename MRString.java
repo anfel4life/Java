@@ -1,7 +1,10 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class MRString {
-    String createString() {
+    private ArrayList<String> strings = new ArrayList<>();
+
+    private String createString() {
         int len;
         String str = "";
 
@@ -13,9 +16,11 @@ public class MRString {
         return str;
     }
 
+    private void CreateStringCollection() {
+        createString();
+    }
     public static void main(String[] args) {
         MRString mrs = new MRString();
-        System.out.println(mrs.createString());
-        System.out.println(mrs.createString());
+        mrs.CreateStringCollection();
     }
 }
