@@ -1,26 +1,89 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class MRString {
+    private static final int COLLECTION_LEN = 500;
+    private static final int STRING_LEN = 1000;
+
     private ArrayList<String> strings = new ArrayList<>();
+    private HashMap<Integer, Integer> cache = new HashMap<>();
+    private Random rnd = new Random();
 
     private String createString() {
         int len;
         String str = "";
 
-        Random rnd = new Random();
-        len = rnd.nextInt(1000);
+        len = rnd.nextInt(STRING_LEN);
         for (int i = 0; i < len; i++) {
             str += (char) rnd.nextInt(256);
         }
         return str;
     }
 
-    private void CreateStringCollection() {
-        createString();
+    private void createStringCollection() {
+        int len = rnd.nextInt(COLLECTION_LEN);
+
+        for (int i = 0; i < len; i++) {
+            strings.add(createString());
+        }
     }
+
+    private int getUniqueChars(String str) {
+        int[] chars = new int[256];
+        int unique = 0;
+
+        for (int i = 0; i < str.length(); i++) {
+            chars[str.charAt(i)]++;
+        }
+        for (int c : chars) if (c == 1) unique++;
+
+        return unique;
+    }
+
+    private int getCollectionLength() {
+        return strings.size();
+    }
+
+    private String getRandomStringFromCollection() {
+        int i = rnd.nextInt(getCollectionLength());
+        return strings.get(i);
+    }
+
+    private int getStringFromCache(String str) {
+        Integer idx;
+
+        return ((idx = cache.get(str.hashCode())) == null) ? -1 : idx;
+    }
+
+    private void addStringToCache(String str, int uniqueChars) {
+        cache.put(str.hashCode(), uniqueChars);
+    }
+
+    void checkIt() {
+        String str;
+        int cached;
+
+        for (int i = 0; i < getCollectionLength(); i++) {
+            int uc;
+
+            str = getRandomStringFromCollection();
+            cached = getStringFromCache(str);
+
+            if (cached > -1) {
+                System.out.println("c! " + cached);
+            } else {
+                uc = getUniqueChars(str);
+                addStringToCache(str, uc);
+                System.out.println(uc);
+            }
+
+        }
+    }
+
     public static void main(String[] args) {
         MRString mrs = new MRString();
-        mrs.CreateStringCollection();
+        mrs.createStringCollection();
+        mrs.checkIt();
     }
 }
