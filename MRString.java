@@ -13,9 +13,11 @@ import java.util.Random;
 public class MRString {
     private static final int COLLECTION_LEN = 500;
     private static final int STRING_LEN = 1000;
-
-    private ArrayList<String> strings = new ArrayList<>();
-    private HashMap<Integer, Integer> cache = new HashMap<>();
+    
+    //prefer interfaces to real implementations 
+    //since you aren't using any specific methods from concrete implementation (ArrayList and HashMap in you case)
+    private Array<String> strings = new ArrayList<>();
+    private Map<Integer, Integer> cache = new HashMap<>();
     private Random rnd = new Random();
 
     private String createString() {
@@ -44,7 +46,12 @@ public class MRString {
         for (int i = 0; i < str.length(); i++) {
             chars[str.charAt(i)]++;
         }
-        for (int c : chars) if (c == 1) unique++;
+        
+        //it's ok to sacriface some space so code could be more readable
+        for (int c : chars) {
+            if (c == 1)
+                unique++;
+        }
 
         return unique;
     }
